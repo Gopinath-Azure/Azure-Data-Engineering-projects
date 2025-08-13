@@ -1,0 +1,45 @@
+{
+    "name": "PricingOptimizationPipeline",
+    "properties": {
+        "activities": [
+            {
+                "name": "Get Competitor Prices",
+                "type": "Copy",
+                "inputs": [
+                    "CompetitorAPI"
+                ],
+                "outputs": [
+                    "ADLS_Raw_Competitor"
+                ]
+            },
+            {
+                "name": "Get Product Catalog",
+                "type": "Copy",
+                "inputs": [
+                    "Blob_ProductCatalog"
+                ],
+                "outputs": [
+                    "ADLS_Raw_Catalog"
+                ]
+            },
+            {
+                "name": "Run Databricks Transformation",
+                "type": "DatabricksNotebook",
+                "notebookPath": "/notebooks/pricing_transformation_pyspark"
+            },
+            {
+                "name": "Load to Synapse",
+                "type": "Copy",
+                "inputs": [
+                    "ADLS_Processed"
+                ],
+                "outputs": [
+                    "Synapse_PricingTable"
+                ]
+            }
+        ],
+        "annotations": [
+            "E-Commerce Pricing Optimization"
+        ]
+    }
+}
