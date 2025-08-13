@@ -1,0 +1,25 @@
+{
+  "name": "RetailSales_ETL_Pipeline",
+  "properties": {
+    "description": "ADF pipeline to ingest and transform retail sales data.",
+    "activities": [
+      {
+        "name": "Ingest_Sales_Data",
+        "type": "Copy",
+        "inputs": ["BlobStorage_Sales"],
+        "outputs": ["ADLS_Raw_Sales"]
+      },
+      {
+        "name": "Ingest_Product_Data",
+        "type": "Copy",
+        "inputs": ["BlobStorage_Products"],
+        "outputs": ["ADLS_Raw_Products"]
+      },
+      {
+        "name": "Trigger_Databricks_Transformation",
+        "type": "DatabricksNotebook",
+        "notebookPath": "/notebooks/databricks_pyspark_transformation"
+      }
+    ]
+  }
+}
